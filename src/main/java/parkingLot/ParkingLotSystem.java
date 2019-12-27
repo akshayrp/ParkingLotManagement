@@ -8,18 +8,21 @@ public class ParkingLotSystem {
     private final int actualCapacity;
     private int currentCapacity;
     List parkingLot;
+    public Owner owner;
 
     public ParkingLotSystem(int capacity) {
         this.parkingLot = new ArrayList();
         this.actualCapacity = capacity;
+        this.owner = new Owner();
     }
 
     public void parkVehicle(Object vehicle) throws ParkingLotException {
-        if (currentCapacity == actualCapacity)
+        if (currentCapacity == actualCapacity) {
+            owner.informWhenLotFull();
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
-       parkingLot.add(vehicle);
+        }
+        parkingLot.add(vehicle);
        currentCapacity++;
-
     }
 
     public void unParkVehicle(Object vehicle) {
