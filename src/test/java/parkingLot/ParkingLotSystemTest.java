@@ -15,7 +15,6 @@ public class ParkingLotSystemTest {
         this.parkingLotSystem = new ParkingLotSystem(2);
         this.vehicle = new Object();
         this.vehicle1 = new Object();
-
     }
 
     @Test
@@ -79,7 +78,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(new Object());
         } catch (ParkingLotException e) {
 
-            Assert.assertEquals(true,parkingLotSystem.owner.isFull);
+            Assert.assertEquals(true,parkingLotSystem.lotManagement.owner.isFull);
             Assert.assertEquals("cannot park more vehicles",e.getMessage());
         }
     }
@@ -91,7 +90,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(new Object());
         } catch (ParkingLotException e) {
-            Assert.assertEquals(true, parkingLotSystem.security.isFull);
+            Assert.assertEquals(true, parkingLotSystem.lotManagement.owner.isFull);
             Assert.assertEquals("cannot park more vehicles", e.getMessage());
         }
     }
