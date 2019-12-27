@@ -6,22 +6,20 @@ import java.util.List;
 public class LotManagement {
 
     private final int actualCapacity;
+    private final InformObservers informer;
     private int currentCapacity;
     List parkingLot;
-    public List<ParkingLotObserver> lotObservers;
+
 
     public LotManagement(int capacity) {
         this.parkingLot = new ArrayList();
         this.actualCapacity = capacity;
-        this.lotObservers = new ArrayList<>();
+        this.informer = new InformObservers();
     }
 
     public void parkVehicle(Object vehicle) throws ParkingLotException {
         if (currentCapacity == actualCapacity) {
-            for (ParkingLotObserver observer:
-                    lotObservers) {
-                observer.informWhenLotFull();
-            }
+            this.informer.informParkingIsFull();
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
         }
         parkingLot.add(vehicle);
@@ -31,9 +29,6 @@ public class LotManagement {
     public void unParkVehicle(Object vehicle) {
         if (parkingLot.contains(vehicle))
             parkingLot.remove(vehicle);
-        for (ParkingLotObserver observer:
-                lotObservers) {
-            observer.informWhenLotAvailableAgain();
-        }
+        this.informer.informWhenLotAvailableAgain();
     }
 }
