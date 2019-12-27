@@ -12,7 +12,7 @@ public class ParkingLotSystemTest {
 
     @Before
     public void setUp() {
-        this.parkingLotSystem = new ParkingLotSystem();
+        this.parkingLotSystem = new ParkingLotSystem(2);
         this.vehicle = new Object();
         this.vehicle1 = new Object();
 
@@ -33,7 +33,7 @@ public class ParkingLotSystemTest {
         try {
             parkingLotSystem.parkVehicle(vehicle);
             parkingLotSystem.parkVehicle(vehicle1);
-            parkingLotSystem.isVehicleParked(vehicle);
+            parkingLotSystem.isVehicleParked(new Object());
         } catch (ParkingLotException e) {
             Assert.assertEquals("parked vehicle is not same as given vehicle or vehicle not parked",e.getMessage());
         }
@@ -44,7 +44,7 @@ public class ParkingLotSystemTest {
         try {
             parkingLotSystem.parkVehicle(vehicle);
             parkingLotSystem.unParkVehicle(vehicle);
-            boolean isUnParked  = parkingLotSystem.isVehicleUnParked();
+            boolean isUnParked  = parkingLotSystem.isVehicleUnParked(vehicle);
             Assert.assertTrue(isUnParked);
         } catch (ParkingLotException e) {
         }
@@ -54,9 +54,20 @@ public class ParkingLotSystemTest {
     public void givenVehicleWhenTriedToCheckIfUnParkedWithoutUnParking_ShouldThrowException() {
         try {
             parkingLotSystem.parkVehicle(vehicle);
-            parkingLotSystem.isVehicleUnParked();
+            parkingLotSystem.isVehicleUnParked(vehicle);
         } catch (ParkingLotException e) {
             Assert.assertEquals("vehicle not UnParked",e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenVehicleWhenParkingLotFull_ShouldThrowException() {
+        try {
+            parkingLotSystem.parkVehicle(vehicle);
+            parkingLotSystem.parkVehicle(vehicle1);
+            parkingLotSystem.parkVehicle(new Object());
+        } catch (ParkingLotException e) {
+            Assert.assertEquals("cannot park more vehicles",e.getMessage());
         }
     }
 }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="parkingLot.ParkingLotSystemTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-12-27T09:43:03" hostname="bridgelabz" time="0.005">
+<testsuite name="parkingLot.ParkingLotSystemTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-12-27T10:36:00" hostname="bridgelabz" time="0.011">
   <properties/>
-  <testcase name="givenVehicleWhenParked_ShouldReturnTrue" classname="parkingLot.ParkingLotSystemTest" time="0.003"/>
-  <testcase name="givenVehicleWhenUnParked_ShouldReturnTrue" classname="parkingLot.ParkingLotSystemTest" time="0.002"/>
+  <testcase name="givenVehicleWhenParked_ShouldReturnTrue" classname="parkingLot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenVehicleWhichIsNotParked_AndTriedToCheckIfParked_ShouldThrowException" classname="parkingLot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenVehicleWhenTriedToCheckIfUnParkedWithoutUnParking_ShouldThrowException" classname="parkingLot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenVehicleWhenUnParked_ShouldReturnTrue" classname="parkingLot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenVehicleWhenParkingLotFull_ShouldThrowException" classname="parkingLot.ParkingLotSystemTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

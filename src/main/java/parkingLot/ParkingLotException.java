@@ -1,7 +1,7 @@
 package parkingLot;
 
 public class ParkingLotException extends Exception {
-    enum ExceptionType {VEHICLE_UNPARKING_EXCEPTION, VEHICLE_PARKING_EXCEPTION}
+    enum ExceptionType {VEHICLE_UNPARKING_EXCEPTION, PARKING_LOT_CAPACITY_FULL, VEHICLE_PARKING_EXCEPTION}
 
     ExceptionType type;
 
