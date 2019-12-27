@@ -31,5 +31,9 @@ public class LotManagement {
     public void unParkVehicle(Object vehicle) {
         if (parkingLot.contains(vehicle))
             parkingLot.remove(vehicle);
+        for (ParkingLotObserver observer:
+                lotObservers) {
+            observer.informWhenLotAvailableAgain();
+        }
     }
 }

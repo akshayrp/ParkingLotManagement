@@ -5,4 +5,9 @@ public class Owner implements ParkingLotObserver{
     public void informWhenLotFull() {
         this.isFull = true;
     }
+
+    @Override
+    public void informWhenLotAvailableAgain() {
+        this.isFull = false;
+    }
 }
