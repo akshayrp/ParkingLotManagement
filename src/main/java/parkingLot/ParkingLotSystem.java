@@ -1,5 +1,6 @@
 package parkingLot;
 
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +10,19 @@ public class ParkingLotSystem {
     private int currentCapacity;
     List parkingLot;
     public Owner owner;
+    public AirportSecurity security;
 
     public ParkingLotSystem(int capacity) {
         this.parkingLot = new ArrayList();
         this.actualCapacity = capacity;
         this.owner = new Owner();
+        this.security = new AirportSecurity();
     }
 
     public void parkVehicle(Object vehicle) throws ParkingLotException {
         if (currentCapacity == actualCapacity) {
             owner.informWhenLotFull();
+            security.informWhenLotFull();
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
         }
         parkingLot.add(vehicle);

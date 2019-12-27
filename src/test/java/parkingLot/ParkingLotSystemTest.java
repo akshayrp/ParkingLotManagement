@@ -78,8 +78,21 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(new Object());
         } catch (ParkingLotException e) {
+
             Assert.assertEquals(true,parkingLotSystem.owner.isFull);
             Assert.assertEquals("cannot park more vehicles",e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenVehicleWhenParkingLotFull_ShouldInformAirportSecurity() {
+        try {
+            parkingLotSystem.parkVehicle(vehicle);
+            parkingLotSystem.parkVehicle(vehicle1);
+            parkingLotSystem.parkVehicle(new Object());
+        } catch (ParkingLotException e) {
+            Assert.assertEquals(true, parkingLotSystem.security.isFull);
+            Assert.assertEquals("cannot park more vehicles", e.getMessage());
         }
     }
 }
