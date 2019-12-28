@@ -3,7 +3,7 @@ package parkingLot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LotManagement {
+public class LotAttendant {
 
     private final int actualCapacity;
     private final InformObservers informer;
@@ -11,7 +11,7 @@ public class LotManagement {
     List parkingLot;
 
 
-    public LotManagement(int capacity) {
+    public LotAttendant(int capacity) {
         this.parkingLot = new ArrayList();
         this.actualCapacity = capacity;
         this.informer = new InformObservers();

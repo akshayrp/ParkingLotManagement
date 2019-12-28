@@ -3,26 +3,26 @@ package parkingLot;
 public class ParkingLotSystem {
 
     VehicleAvailabilityCheck availabilityCheck;
-    LotManagement lotManagement;
+    LotAttendant lotAttendant;
 
     public ParkingLotSystem(int capacity) {
         this.availabilityCheck = new VehicleAvailabilityCheck();
-        this.lotManagement = new LotManagement(capacity);
+        this.lotAttendant = new LotAttendant(capacity);
     }
 
     public void parkVehicle(Object vehicle) throws ParkingLotException {
-        lotManagement.parkVehicle(vehicle);
+        lotAttendant.parkVehicle(vehicle);
     }
 
     public void unParkVehicle(Object vehicle) {
-        lotManagement.unParkVehicle(vehicle);
+        lotAttendant.unParkVehicle(vehicle);
     }
 
     public boolean isVehicleParked(Object vehicle) throws ParkingLotException {
-        return availabilityCheck.isVehicleParked(vehicle, lotManagement.parkingLot);
+        return availabilityCheck.isVehicleParked(vehicle, lotAttendant.parkingLot);
     }
 
     public boolean isVehicleUnParked(Object vehicle) throws ParkingLotException {
-        return availabilityCheck.isVehicleUnParked(vehicle, lotManagement.parkingLot);
+        return availabilityCheck.isVehicleUnParked(vehicle, lotAttendant.parkingLot);
     }
 }
