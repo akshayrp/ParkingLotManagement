@@ -1,8 +1,7 @@
 package parkingLot;
 
-public class AirportSecurity implements ParkingLotObserver{
+public class LotObserver implements ParkingLotObserver {
     public boolean isFull = false;
-
     public void informWhenLotFull() {
         this.isFull = true;
     }
