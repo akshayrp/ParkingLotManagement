@@ -5,18 +5,26 @@ import java.util.List;
 
 public class InformObservers {
     LotObserver observer = new LotObserver();
-    public List<ParkingLotObserver> lotObservers;
+    public List<ParkingLotObserver> observersList;
 
     public InformObservers() {
-        this.lotObservers = new ArrayList<>();
-        lotObservers.add(observer);
+        this.observersList = new ArrayList<>();
+        this.observersList.add(observer);
     }
-
     public void informParkingIsFull() {
-        lotObservers.forEach(ParkingLotObserver::informWhenLotFull);
+        for (ParkingLotObserver lotObserver : observersList) {
+            lotObserver.informWhenLotFull();
+        }
     }
 
     public void informWhenLotAvailableAgain() {
-        lotObservers.forEach(ParkingLotObserver::informWhenLotAvailableAgain);
+        for (ParkingLotObserver lotObserver : observersList) {
+            lotObserver.informWhenLotAvailableAgain();
+        }
+    }
+
+    public void setMockObject(LotObserver lotObserver, ArrayList observersList) {
+        this.observer = lotObserver;
+        this.observersList = observersList;
     }
 }
