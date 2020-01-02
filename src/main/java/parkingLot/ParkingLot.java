@@ -1,9 +1,8 @@
 package parkingLot;
 
-import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -11,13 +10,15 @@ public class ParkingLot {
 
     private final int actualCapacity;
     private InformObservers informer;
-    private int currentCapacity;
+    private int vehicleCount = 0;
+
     public List<Slot> slots;
 
-    public ParkingLot(int capacity,ArrayList<Slot> slotList,InformObservers informer) {
-        this.slots = slotList;
-        this.actualCapacity = capacity;
-        this.informer = informer;
+    public ParkingLot(int slotCapacity) {
+        this.slots = new ArrayList<>();
+        this.actualCapacity = slotCapacity;
+        this.informer = new InformObservers();
+        this.slots = new ArrayList<>();
         initialiseList();
     }
 
@@ -25,18 +26,22 @@ public class ParkingLot {
         IntStream.range(0, actualCapacity).forEach(slotNumber -> this.slots.add(slotNumber, new Slot(slotNumber)));
     }
 
-    public void parkVehicle(Object vehicle, Integer slotNumber) throws ParkingLotException {
-        if (currentCapacity == actualCapacity) {
-            this.informer.informParkingIsFull();
-            throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
-        }
-        slots.get(slotNumber).setVehicleAndTime(vehicle);
-        currentCapacity++;
+    public void setMockedObject(ArrayList<Slot> slotList, InformObservers informObservers) {
+        this.informer = informObservers;
+        this.slots = slotList;
+    }
+
+    public void parkVehicle(Object vehicle) throws ParkingLotException {
+        this.checkForFullParkingLot();
+        int first = IntStream.range(0, slots.size()).filter(vehicles -> slots.get(vehicles).getVehicle() == null).findFirst().getAsInt();
+        slots.get(first).setVehicleAndTime(vehicle);
+        this.vehicleCount++;
     }
 
     public void unParkVehicle(Object vehicle) {
         slots.stream().filter(slot -> slot.getVehicle().equals(vehicle)).findFirst().ifPresent(slot -> slot.setVehicleAndTime(null));
         this.informer.informWhenLotAvailableAgain();
+        this.vehicleCount--;
     }
 
     public List getEmptySlots() {
@@ -63,5 +68,22 @@ public class ParkingLot {
         }
         return false;
         //return slots.stream().filter(slot -> slot.getVehicle().equals(vehicle)).findFirst().get().equals(vehicle);
+    }
+
+    public int getNumberOfVehiclesParked() {
+        return this.vehicleCount;
+    }
+
+    public void parkVehicle(Object vehicle, int slotNumber) throws ParkingLotException {
+        this.checkForFullParkingLot();
+        slots.get(slotNumber).setVehicleAndTime(vehicle);
+        vehicleCount++;
+    }
+
+    private void checkForFullParkingLot() throws ParkingLotException {
+         if (vehicleCount == actualCapacity) {
+            this.informer.informParkingIsFull();
+            throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
+        }
     }
 }
