@@ -63,15 +63,35 @@ public class ParkingLotSystemTest {
 
     @Test
     public void givenVehicle_SystemShouldReturnListOfAvailableEmptySlots() {
-        List expectedEmptySlots = new ArrayList();
+        List<Integer> expectedEmptySlots = new ArrayList();
         expectedEmptySlots.add(0);
         expectedEmptySlots.add(1);
         try {
-            List emptySlots = parkingLotSystem.getEmptySlots();
-            parkingLotSystem.parkVehicle(vehicle, (Integer) emptySlots.get(0));
+            List<Integer> emptySlots = parkingLotSystem.getEmptySlots();
+            parkingLotSystem.parkVehicle(vehicle, emptySlots.get(0));
             Assert.assertEquals(expectedEmptySlots,emptySlots);
         } catch (ParkingLotException e) {
+        }
+    }
+
+    @Test
+    public void givenVehicleWhenParked_ShouldBeAbleToFindTheVehicleAtThatSlot() {
+        try {
+            parkingLotSystem.parkVehicle(vehicle,0);
+            int expectedSlot = parkingLotSystem.findVehicle(vehicle);
+            Assert.assertEquals(0,expectedSlot);
+        } catch (ParkingLotException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenVehicleWhenNotParkedAndTriedToSearch_ShouldThrowException() {
+        try {
+            int expectedSlot = parkingLotSystem.findVehicle(vehicle);
+            Assert.assertEquals(0,expectedSlot);
+        } catch (ParkingLotException e) {
+            Assert.assertEquals("No Such Vehicle in Lot", e.getMessage());
         }
     }
 }

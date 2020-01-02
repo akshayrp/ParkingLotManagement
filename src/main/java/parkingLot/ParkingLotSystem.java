@@ -46,4 +46,9 @@ public class ParkingLotSystem {
         return emptySlots;
     }
 
+    public int findVehicle(Object vehicle) throws ParkingLotException {
+        if(parkingLot.contains(vehicle))
+            return parkingLot.indexOf(vehicle);
+        throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,"No Such Vehicle in Lot");
+    }
 }
