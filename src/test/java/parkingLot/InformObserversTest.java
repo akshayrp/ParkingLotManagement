@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.internal.verification.Times;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 

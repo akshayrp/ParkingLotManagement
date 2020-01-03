@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="parkingLot.ParkingLotSystemTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-01-03T06:55:24" hostname="bridgelabz" time="0.042">
+  <properties/>
+  <testcase name="givenVehicle_ShouldParkVehicleEvenlyOnEmptySlot" classname="parkingLot.ParkingLotSystemTest" time="0.036"/>
+  <testcase name="givenVehicle_ShouldUnParkTheVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.002"/>
+  <testcase name="givenVehicle_shouldParkVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

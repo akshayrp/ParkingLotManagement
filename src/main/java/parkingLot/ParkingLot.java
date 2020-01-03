@@ -2,9 +2,7 @@ package parkingLot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalInt;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class ParkingLot {
 
@@ -13,6 +11,7 @@ public class ParkingLot {
     private int vehicleCount = 0;
 
     public List<Slot> slots;
+
 
     public ParkingLot(int slotCapacity) {
         this.slots = new ArrayList<>();
@@ -33,9 +32,16 @@ public class ParkingLot {
 
     public void parkVehicle(Object vehicle) throws ParkingLotException {
         this.checkForFullParkingLot();
-        int first = IntStream.range(0, slots.size()).filter(vehicles -> slots.get(vehicles).getVehicle() == null).findFirst().getAsInt();
-        slots.get(first).setVehicleAndTime(vehicle);
+        int emptySlot = IntStream.range(0, slots.size()).filter(vehicles
+                -> slots.get(vehicles).getVehicle() == null).findFirst().getAsInt();
+        slots.get(emptySlot).setVehicleAndTime(vehicle);
         this.vehicleCount++;
+    }
+
+    public void parkVehicle(Object vehicle, int slotNumber) throws ParkingLotException {
+        this.checkForFullParkingLot();
+        slots.get(slotNumber).setVehicleAndTime(vehicle);
+        vehicleCount++;
     }
 
     public void unParkVehicle(Object vehicle) {
@@ -53,31 +59,20 @@ public class ParkingLot {
     }
 
     public int findVehicle(Object vehicle) throws ParkingLotException {
-        Stream<Slot> stream = slots.stream();
-        int slotNumber = 0;
-        slotNumber = stream.filter(slot -> slot.getVehicle() != null && slot.getVehicle().equals(vehicle)).findFirst()
-                .orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "vehicle not found"))
-                .getSlotNumber();
-        return slotNumber;
+        return getSlot(vehicle).getSlotNumber();
     }
 
-    public boolean isVehiclePresent(Object vehicle) {
-        Slot tempSlot = new Slot(vehicle);
-        if (this.slots.contains(tempSlot)) {
-            return true;
+    public boolean isVehiclePresent(Object vehicle){
+        try {
+            return getSlot(vehicle).getVehicle().equals(vehicle);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
         }
         return false;
-        //return slots.stream().filter(slot -> slot.getVehicle().equals(vehicle)).findFirst().get().equals(vehicle);
     }
 
     public int getNumberOfVehiclesParked() {
         return this.vehicleCount;
-    }
-
-    public void parkVehicle(Object vehicle, int slotNumber) throws ParkingLotException {
-        this.checkForFullParkingLot();
-        slots.get(slotNumber).setVehicleAndTime(vehicle);
-        vehicleCount++;
     }
 
     private void checkForFullParkingLot() throws ParkingLotException {
@@ -85,5 +80,10 @@ public class ParkingLot {
             this.informer.informParkingIsFull();
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
         }
+    }
+
+    private Slot getSlot(Object vehicle) throws ParkingLotException {
+        Slot vehicleSlot = slots.stream().filter(slot -> slot.getVehicle() != null && slot.getVehicle().equals(vehicle)).findFirst().orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "vehicle not found"));
+        return vehicleSlot;
     }
 }

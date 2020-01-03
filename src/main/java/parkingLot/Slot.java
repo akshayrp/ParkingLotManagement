@@ -12,10 +12,6 @@ public class Slot {
         this.slotNumber = slotNumber;
     }
 
-    public Slot(Object vehicle) {
-        this.vehicle = vehicle;
-    }
-
     public int getSlotNumber() {
         return slotNumber;
     }

@@ -41,6 +41,7 @@ public class parkingLotTest {
             ParkingLot.parkVehicle(vehicle,0);
             Assert.assertTrue(ParkingLot.isVehiclePresent(vehicle));
         } catch (ParkingLotException e) {
+            e.printStackTrace();
         }
     }
 
@@ -60,8 +61,8 @@ public class parkingLotTest {
         try {
             ParkingLot.parkVehicle(vehicle,0);
             ParkingLot.unParkVehicle(vehicle);
-            Assert.assertFalse(ParkingLot.isVehiclePresent(vehicle));
         } catch (ParkingLotException e) {
+            Assert.assertEquals("vehicle not found",e.getMessage());
         }
     }
 

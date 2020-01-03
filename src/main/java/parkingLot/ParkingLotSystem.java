@@ -1,21 +1,27 @@
 package parkingLot;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class ParkingLotSystem {
-    private final int slotCapacity;
-    private final int numberOfLots;
-    public List<ParkingLot> parkingLotsList;
-    ParkingLot parkingLot;
+    public static List<ParkingLot> parkingLotsList;
+    public ParkingLot parkingLot;
+    public ParkingStrategy strategy;
 
-    public ParkingLotSystem(int slotCapacity,int numberOfLots) {
-        this.slotCapacity = slotCapacity;
+    public ParkingLotSystem() {
         this.parkingLotsList = new ArrayList<>();
-        this.numberOfLots = numberOfLots;
-        IntStream.range(0,numberOfLots).forEach(lot -> this.parkingLotsList.add(new ParkingLot(2)));
+        this.strategy = new ParkingStrategy();
+    }
+
+    public void setMockObject(ParkingStrategy strategy,ParkingLot parkingLot) {
+        this.strategy = strategy;
+        this.parkingLot = parkingLot;
+    }
+
+    public void createParkingLot(int slotCapacity, int numberOfLots) {
+        IntStream.range(0, numberOfLots).forEach(lot
+                -> this.parkingLotsList.add(new ParkingLot(slotCapacity)));
     }
 
     public void parkVehicle(Object vehicle,int slotNumber) throws ParkingLotException {
@@ -23,13 +29,17 @@ public class ParkingLotSystem {
     }
 
     public void parkVehicle(Object vehicle) throws ParkingLotException {
-        ParkingLot lot = this.getLot();
-        lot.parkVehicle(vehicle);
+        this.parkingLot = strategy.getLot();
+        this.parkingLot.parkVehicle(vehicle);
     }
 
-    private ParkingLot getLot() {
-        List<ParkingLot> tempLots = new ArrayList<>(this.parkingLotsList);
-        tempLots.sort(Comparator.comparing(lot->lot.getNumberOfVehiclesParked()));
-        return tempLots.get(0);
+    public void unParkVehicle(Object vehicle) {
+        parkingLot.unParkVehicle(vehicle);
+    }
+
+
+    public ParkingLot getParkedVehicleLot(Object vehicle) {
+        ParkingLot parkingLotWithParkedVehicle = parkingLotsList.stream().filter(parkingLot -> parkingLot.isVehiclePresent(vehicle)).findFirst().orElse(null);
+        return parkingLotWithParkedVehicle;
     }
 }

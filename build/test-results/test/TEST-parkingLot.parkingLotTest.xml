@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="parkingLot.parkingLotTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2020-01-03T06:55:23" hostname="bridgelabz" time="0.376">
+  <properties/>
+  <testcase name="givenVehicleWhenParked_ShouldReturnTrue" classname="parkingLot.parkingLotTest" time="0.367"/>
+  <testcase name="givenVehicleWhichIsNotParked_AndTriedToCheckIfParked_ShouldThrowException" classname="parkingLot.parkingLotTest" time="0.0"/>
+  <testcase name="givenVehicleWhenNotParkedAndTriedToSearch_ShouldThrowException" classname="parkingLot.parkingLotTest" time="0.001"/>
+  <testcase name="givenVehicleWhenParked_ShouldBeAbleToFindTheVehicleAtThatSlot" classname="parkingLot.parkingLotTest" time="0.001"/>
+  <testcase name="givenVehicle_SystemShouldReturnListOfAvailableEmptySlots" classname="parkingLot.parkingLotTest" time="0.002"/>
+  <testcase name="givenVehicleWhenUnParked_ShouldReturnTrue" classname="parkingLot.parkingLotTest" time="0.002"/>
+  <testcase name="givenVehicleWhenParkingLotFull_ShouldThrowException" classname="parkingLot.parkingLotTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
