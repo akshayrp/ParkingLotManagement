@@ -7,15 +7,15 @@ import java.util.stream.IntStream;
 public class ParkingLotSystem {
     public static List<ParkingLot> parkingLotsList;
     public ParkingLot parkingLot;
-    public ParkingStrategy strategy;
+    public AssignLot assignLot;
 
     public ParkingLotSystem() {
         this.parkingLotsList = new ArrayList<>();
-        this.strategy = new ParkingStrategy();
+        this.assignLot = new AssignLot();
     }
 
-    public void setMockObject(ParkingStrategy strategy,ParkingLot parkingLot) {
-        this.strategy = strategy;
+    public void setMockObject(AssignLot assignLot,ParkingLot parkingLot) {
+        this.assignLot = assignLot;
         this.parkingLot = parkingLot;
     }
 
@@ -28,8 +28,9 @@ public class ParkingLotSystem {
         parkingLot.parkVehicle(vehicle,slotNumber);
     }
 
-    public void parkVehicle(Object vehicle) throws ParkingLotException {
-        this.parkingLot = strategy.getLot();
+    public void parkVehicle(DriverType driverType,Object vehicle) throws ParkingLotException {
+        this.parkingLot = assignLot.getLot(driverType);
+        //this.parkingLot = strategy.getLot();
         this.parkingLot.parkVehicle(vehicle);
     }
 
@@ -39,7 +40,10 @@ public class ParkingLotSystem {
 
 
     public ParkingLot getParkedVehicleLot(Object vehicle) {
-        ParkingLot parkingLotWithParkedVehicle = parkingLotsList.stream().filter(parkingLot -> parkingLot.isVehiclePresent(vehicle)).findFirst().orElse(null);
+        ParkingLot parkingLotWithParkedVehicle = parkingLotsList.stream()
+                .filter(parkingLot -> parkingLot.isVehiclePresent(vehicle))
+                .findFirst()
+                .orElse(null);
         return parkingLotWithParkedVehicle;
     }
 }

@@ -83,7 +83,10 @@ public class ParkingLot {
     }
 
     private Slot getSlot(Object vehicle) throws ParkingLotException {
-        Slot vehicleSlot = slots.stream().filter(slot -> slot.getVehicle() != null && slot.getVehicle().equals(vehicle)).findFirst().orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "vehicle not found"));
+        Slot vehicleSlot = slots.stream()
+                .filter(slot -> slot.getVehicle() != null && slot.getVehicle().equals(vehicle))
+                .findFirst()
+                .orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "vehicle not found"));
         return vehicleSlot;
     }
 }

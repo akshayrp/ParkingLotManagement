@@ -112,28 +112,4 @@ public class parkingLotTest {
         }
     }
 
-
-    /////////UC8
-   /* @Test
-    public void givenVehicleWhenParked_ShouldNoteParkingTime() {
-        try {
-            parkingLot.setMockedObject(slotList,informObservers);
-            verify(slotList).get(0).setVehicleAndTime(vehicle);
-            parkingLot.parkVehicle(vehicle,0);
-        } catch (ParkingLotException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-   /////////UC9
-    /*@Test
-    public void givenVehicle_ShouldParkVehicleOnSlotByEvenDistribution() {
-        try {
-            ParkingLotSystem lots = new ParkingLotSystem();
-            lots.getEmptySlot();
-            ParkingLot.parkVehicle(vehicle,0);
-        } catch (ParkingLotException e) {
-            e.printStackTrace();
-        }
-    }*/
 }
