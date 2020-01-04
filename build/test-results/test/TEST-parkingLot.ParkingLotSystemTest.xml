@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="parkingLot.ParkingLotSystemTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-01-04T06:55:58" hostname="bridgelabz" time="0.137">
+<testsuite name="parkingLot.ParkingLotSystemTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-01-04T10:45:44" hostname="bridgelabz" time="0.291">
   <properties/>
-  <testcase name="givenVehicleAndParkingSlot_ShouldParkTheVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.109"/>
-  <testcase name="givenVehicle_ShouldParkVehicleEvenlyOnEmptySlot" classname="parkingLot.ParkingLotSystemTest" time="0.007"/>
-  <testcase name="givenLargeVehicle_ShouldParkVehicleAtMoreFreeSpace" classname="parkingLot.ParkingLotSystemTest" time="0.002"/>
-  <testcase name="givenVehicle_ShouldUnParkTheVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.002"/>
-  <testcase name="givenVehicle_shouldParkVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.013"/>
-  <testcase name="givenVehicleWithHandicappedDriver_ShouldParkVehicleAtNearestFreeSpace" classname="parkingLot.ParkingLotSystemTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="givenParkingLotWithVehicle_ShouldReturnListOfLocationsWhiteVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.291"/>
+  <system-out><![CDATA[[[0, 1], []]
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

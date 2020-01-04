@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="parkingLot.InformObserversTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-01-04T06:55:58" hostname="bridgelabz" time="0.063">
-  <properties/>
-  <testcase name="givenLotAvailableAgain_ShouldInformToObserversOfAvailability" classname="parkingLot.InformObserversTest" time="0.061"/>
-  <testcase name="givenParkingIsFull_ShouldInformToObservers" classname="parkingLot.InformObserversTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

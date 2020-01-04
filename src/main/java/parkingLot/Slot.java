@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Slot {
     private int slotNumber;
-    private Object vehicle;
+    private Vehicle vehicle;
     private LocalDateTime parkingTime;
 
     public Slot(Integer slotNumber) {
@@ -16,7 +16,7 @@ public class Slot {
         return slotNumber;
     }
 
-    public Object getVehicle() {
+    public Vehicle getVehicle() {
         return vehicle;
     }
 
@@ -24,7 +24,7 @@ public class Slot {
         return parkingTime;
     }
 
-    public void setVehicleAndTime(Object vehicle,LocalDateTime parkingTime) {
+    public void setVehicleAndTime(Vehicle vehicle, LocalDateTime parkingTime) {
         this.vehicle = vehicle;
         this.parkingTime = parkingTime;
     }

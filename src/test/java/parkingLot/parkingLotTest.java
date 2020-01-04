@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import static org.mockito.Mockito.*;
 
@@ -21,18 +22,19 @@ public class parkingLotTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     ParkingLot parkingLot;
-    Object vehicle;
-    Object vehicle1;
     ArrayList<Slot> slotList;
+    Vehicle vehicle;
+    Vehicle vehicle1;
+
 
     @Before
     public void setUp() {
         this.slot = mock(Slot.class);
         this.slotList = mock(ArrayList.class);
         this.informObservers = mock(InformObservers.class);
-        this.parkingLot = new ParkingLot(2);
-        this.vehicle = new Object();
-        this.vehicle1 = new Object();
+        this.parkingLot = new ParkingLot(1,3);
+        vehicle = new Vehicle("red");
+        vehicle1 = new Vehicle("White");
     }
 
     @Test
@@ -94,7 +96,7 @@ public class parkingLotTest {
     @Test
     public void givenVehicle_WhenParked_shouldReturnTrue() {
         try {
-            Object vehicle = new Object();
+            Vehicle vehicle = new Vehicle("White");
             parkingLot.parkVehicle(vehicle);
             boolean vehiclePresent = parkingLot.isVehiclePresent(vehicle);
             Assert.assertTrue(vehiclePresent);
@@ -139,6 +141,38 @@ public class parkingLotTest {
             parkingLot.parkVehicle(vehicle);
             int emptySlots = parkingLot.getNumberOfEmptySlots();
             Assert.assertEquals(1,emptySlots);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenARequestToGiveSlotNumberOfAllWhiteCars_ShouldReturnListOfSlotNumbersContainingWhiteCars() {
+        try {
+            ArrayList<Integer> expectedSlotNumber = new ArrayList<>();
+            expectedSlotNumber.add(0);
+            Vehicle vehicle = new Vehicle("White");
+            Vehicle vehicle2 = new Vehicle("Yellow");
+            parkingLot.parkVehicle(vehicle);
+            parkingLot.parkVehicle(vehicle2);
+            ArrayList<Integer> actual = parkingLot.getLocation("white");
+            Assert.assertEquals(expectedSlotNumber,actual);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenARequestToGiveSlotNumberOfAllWhiteCars_WhenWhiteCarNotPresent_ShouldReturnListOfSlotNumbersContainingWhiteCars() {
+        try {
+            ArrayList<Integer> expectedSlotNumber = new ArrayList<>();
+            expectedSlotNumber.add(1);
+            Vehicle vehicle = new Vehicle("Red");
+            Vehicle vehicle2 = new Vehicle("white");
+            parkingLot.parkVehicle(vehicle);
+            parkingLot.parkVehicle(vehicle2);
+            ArrayList<Integer> actual = parkingLot.getLocation("white");
+            Assert.assertEquals(expectedSlotNumber,actual);
         } catch (ParkingLotException e) {
             e.printStackTrace();
         }

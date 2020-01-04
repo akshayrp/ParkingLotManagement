@@ -3,17 +3,20 @@ package parkingLot;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ParkingLot {
 
     private final int actualCapacity;
+    private final int parkingLotNumber;
     private InformObservers informer;
     private int vehicleCount = 0;
     public List<Slot> slots;
 
-    public ParkingLot(int slotCapacity) {
+    public ParkingLot(int parkingLotNumber,int slotCapacity) {
+        this.parkingLotNumber = parkingLotNumber;
         this.slots = new ArrayList<>();
         this.actualCapacity = slotCapacity;
         this.informer = new InformObservers();
@@ -30,7 +33,7 @@ public class ParkingLot {
         this.slots = slotList;
     }*/
 
-    public void parkVehicle(Object vehicle) throws ParkingLotException {
+    public void parkVehicle(Vehicle vehicle) throws ParkingLotException {
         this.checkForFullParkingLot();
         int emptySlot = IntStream.range(0, slots.size()).filter(vehicles
                 -> slots.get(vehicles).getVehicle() == null).findFirst().getAsInt();
@@ -38,13 +41,13 @@ public class ParkingLot {
         this.vehicleCount++;
     }
 
-    public void parkVehicle(Object vehicle, int slotNumber) throws ParkingLotException {
+    public void parkVehicle(Vehicle vehicle, int slotNumber) throws ParkingLotException {
         this.checkForFullParkingLot();
         slots.get(slotNumber).setVehicleAndTime(vehicle, LocalDateTime.now());
         vehicleCount++;
     }
 
-    public void unParkVehicle(Object vehicle) {
+    public void unParkVehicle(Vehicle vehicle) {
         slots.stream().filter(slot -> slot.getVehicle().equals(vehicle)).findFirst().ifPresent(slot -> slot.setVehicleAndTime(null,null));
         this.informer.informWhenLotAvailableAgain();
         vehicleCount--;
@@ -58,11 +61,11 @@ public class ParkingLot {
         return emptySlots;
     }
 
-    public int findSlotOfParkedVehicle(Object vehicle) {
+    public int findSlotOfParkedVehicle(Vehicle vehicle) {
         return getSlot(vehicle).findFirst().get().getSlotNumber();
     }
 
-    public boolean isVehiclePresent(Object vehicle){
+    public boolean isVehiclePresent(Vehicle vehicle){
         return getSlot(vehicle).findFirst().isPresent();
     }
 
@@ -81,9 +84,17 @@ public class ParkingLot {
         }
     }
 
-    private Stream<Slot> getSlot(Object vehicle) {
+    private Stream<Slot> getSlot(Vehicle vehicle) {
         Stream<Slot> vehicleSlot = slots.stream()
                 .filter(slot -> slot.getVehicle() != null && slot.getVehicle().equals(vehicle));
         return vehicleSlot;
     }
+
+    public ArrayList<Integer> getLocation(String findBy) {
+        ArrayList<Integer> collect = slots.stream().filter(slot -> slot.getVehicle() != null)
+                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findBy))
+                .map(slot -> slot.getSlotNumber()).collect(Collectors.toCollection(ArrayList::new));
+        return collect;
+    }
+
 }

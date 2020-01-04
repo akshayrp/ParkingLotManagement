@@ -1,7 +1,7 @@
 package parkingLot;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ParkingLotSystem {
@@ -10,7 +10,7 @@ public class ParkingLotSystem {
     public AssignLot assignLot;
 
     public ParkingLotSystem() {
-        this.parkingLotsList = new ArrayList<>();
+        parkingLotsList = new ArrayList<>();
         this.assignLot = new AssignLot();
     }
 
@@ -21,25 +21,31 @@ public class ParkingLotSystem {
 
     public void createParkingLot(int slotCapacity, int numberOfLots) {
         IntStream.range(0, numberOfLots).forEach(lot
-                -> this.parkingLotsList.add(new ParkingLot(slotCapacity)));
+                -> parkingLotsList.add(new ParkingLot(lot,slotCapacity)));
     }
 
-    public void parkVehicle(Object vehicle,int slotNumber) throws ParkingLotException {
+    public void parkVehicle(Vehicle vehicle,int slotNumber) throws ParkingLotException {
         parkingLot.parkVehicle(vehicle,slotNumber);
     }
 
-    public void parkVehicle(Enum parkingStrategy,Object vehicle) throws ParkingLotException {
+    public void parkVehicle(Enum parkingStrategy,Vehicle vehicle) throws ParkingLotException {
         this.parkingLot = assignLot.getLot(parkingStrategy);
         this.parkingLot.parkVehicle(vehicle);
     }
 
-    public void unParkVehicle(Object vehicle) throws ParkingLotException {
+    public void unParkVehicle(Vehicle vehicle) throws ParkingLotException {
         getParkedVehicleLot(vehicle).unParkVehicle(vehicle);
     }
 
 
-    public ParkingLot getParkedVehicleLot(Object vehicle) throws ParkingLotException {
+    public ParkingLot getParkedVehicleLot(Vehicle vehicle) throws ParkingLotException {
         return parkingLotsList.stream()
                 .filter(parkingLot -> parkingLot.isVehiclePresent(vehicle)).findFirst().orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "No vehicle present"));
+    }
+
+    public ArrayList<ArrayList<Integer>> getLocation(String findBy) {
+        ArrayList<ArrayList<Integer>> collect = this.parkingLotsList.stream().map(parkingLot ->
+                parkingLot.getLocation(findBy)).collect(Collectors.toCollection(ArrayList::new));
+        return collect;
     }
 }
