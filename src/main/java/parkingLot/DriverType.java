@@ -1,5 +1,5 @@
 package parkingLot;
 
 public enum DriverType {
-    HANDICAP , NORMAL
+    HANDICAP_DRIVER, NORMAL
 }

@@ -24,9 +24,9 @@ public class Slot {
         return parkingTime;
     }
 
-    public void setVehicleAndTime(Object vehicle) {
+    public void setVehicleAndTime(Object vehicle,LocalDateTime parkingTime) {
         this.vehicle = vehicle;
-        this.parkingTime = LocalDateTime.now();
+        this.parkingTime = parkingTime;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class SlotTest {
     @Test
     public void givenVehicle_WhenParked_ShouldSetParkingTime() {
         Object vehicle = new Object();
-        slot.setVehicleAndTime(vehicle);
+        slot.setVehicleAndTime(vehicle,LocalDateTime.now());
         Assert.assertEquals(LocalDateTime.now(),slot.getParkingTime());
     }
 }

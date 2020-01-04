@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="parkingLot.SlotTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-01-03T08:06:31" hostname="bridgelabz" time="0.0">
+<testsuite name="parkingLot.SlotTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-01-04T06:55:58" hostname="bridgelabz" time="0.0">
   <properties/>
   <testcase name="givenVehicle_WhenParked_ShouldSetParkingTime" classname="parkingLot.SlotTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="parkingLot.ParkingLotSystemTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-01-03T08:06:31" hostname="bridgelabz" time="0.133">
+<testsuite name="parkingLot.ParkingLotSystemTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-01-04T06:55:58" hostname="bridgelabz" time="0.137">
   <properties/>
-  <testcase name="givenVehicle_ShouldParkVehicleEvenlyOnEmptySlot" classname="parkingLot.ParkingLotSystemTest" time="0.104"/>
-  <testcase name="givenVehicle_ShouldUnParkTheVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.005"/>
-  <testcase name="givenVehicle_shouldParkVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.017"/>
-  <testcase name="givenVehicleWithHandicappedDriver_ShouldParkVehicleAtNearestFreeSpace" classname="parkingLot.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenVehicleAndParkingSlot_ShouldParkTheVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.109"/>
+  <testcase name="givenVehicle_ShouldParkVehicleEvenlyOnEmptySlot" classname="parkingLot.ParkingLotSystemTest" time="0.007"/>
+  <testcase name="givenLargeVehicle_ShouldParkVehicleAtMoreFreeSpace" classname="parkingLot.ParkingLotSystemTest" time="0.002"/>
+  <testcase name="givenVehicle_ShouldUnParkTheVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.002"/>
+  <testcase name="givenVehicle_shouldParkVehicle" classname="parkingLot.ParkingLotSystemTest" time="0.013"/>
+  <testcase name="givenVehicleWithHandicappedDriver_ShouldParkVehicleAtNearestFreeSpace" classname="parkingLot.ParkingLotSystemTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

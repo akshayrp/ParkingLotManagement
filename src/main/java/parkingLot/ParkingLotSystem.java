@@ -28,22 +28,18 @@ public class ParkingLotSystem {
         parkingLot.parkVehicle(vehicle,slotNumber);
     }
 
-    public void parkVehicle(DriverType driverType,Object vehicle) throws ParkingLotException {
-        this.parkingLot = assignLot.getLot(driverType);
-        //this.parkingLot = strategy.getLot();
+    public void parkVehicle(Enum parkingStrategy,Object vehicle) throws ParkingLotException {
+        this.parkingLot = assignLot.getLot(parkingStrategy);
         this.parkingLot.parkVehicle(vehicle);
     }
 
-    public void unParkVehicle(Object vehicle) {
-        parkingLot.unParkVehicle(vehicle);
+    public void unParkVehicle(Object vehicle) throws ParkingLotException {
+        getParkedVehicleLot(vehicle).unParkVehicle(vehicle);
     }
 
 
-    public ParkingLot getParkedVehicleLot(Object vehicle) {
-        ParkingLot parkingLotWithParkedVehicle = parkingLotsList.stream()
-                .filter(parkingLot -> parkingLot.isVehiclePresent(vehicle))
-                .findFirst()
-                .orElse(null);
-        return parkingLotWithParkedVehicle;
+    public ParkingLot getParkedVehicleLot(Object vehicle) throws ParkingLotException {
+        return parkingLotsList.stream()
+                .filter(parkingLot -> parkingLot.isVehiclePresent(vehicle)).findFirst().orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "No vehicle present"));
     }
 }

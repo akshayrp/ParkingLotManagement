@@ -20,7 +20,7 @@ public class parkingLotTest {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
-    ParkingLot ParkingLot;
+    ParkingLot parkingLot;
     Object vehicle;
     Object vehicle1;
     ArrayList<Slot> slotList;
@@ -28,9 +28,9 @@ public class parkingLotTest {
     @Before
     public void setUp() {
         this.slot = mock(Slot.class);
-        this.slotList =mock(ArrayList.class);
+        this.slotList = mock(ArrayList.class);
         this.informObservers = mock(InformObservers.class);
-        this.ParkingLot = new ParkingLot(2);
+        this.parkingLot = new ParkingLot(2);
         this.vehicle = new Object();
         this.vehicle1 = new Object();
     }
@@ -38,8 +38,8 @@ public class parkingLotTest {
     @Test
     public void givenVehicleWhenParked_ShouldReturnTrue() {
         try {
-            ParkingLot.parkVehicle(vehicle,0);
-            Assert.assertTrue(ParkingLot.isVehiclePresent(vehicle));
+            parkingLot.parkVehicle(vehicle,0);
+            Assert.assertTrue(parkingLot.isVehiclePresent(vehicle));
         } catch (ParkingLotException e) {
             e.printStackTrace();
         }
@@ -48,9 +48,9 @@ public class parkingLotTest {
     @Test
     public void givenVehicleWhichIsNotParked_AndTriedToCheckIfParked_ShouldThrowException() {
         try {
-            ParkingLot.parkVehicle(vehicle,0);
-            ParkingLot.parkVehicle(vehicle1,0);
-            Assert.assertFalse(ParkingLot.slots.contains(new Object()));
+            parkingLot.parkVehicle(vehicle,0);
+            parkingLot.parkVehicle(vehicle1,0);
+            Assert.assertFalse(parkingLot.slots.contains(new Object()));
         } catch (ParkingLotException e) {
             Assert.assertEquals("parked vehicle is not same as given vehicle or vehicle not parked", e.getMessage());
         }
@@ -59,8 +59,8 @@ public class parkingLotTest {
     @Test
     public void givenVehicleWhenUnParked_ShouldReturnTrue() {
         try {
-            ParkingLot.parkVehicle(vehicle,0);
-            ParkingLot.unParkVehicle(vehicle);
+            parkingLot.parkVehicle(vehicle,0);
+            parkingLot.unParkVehicle(vehicle);
         } catch (ParkingLotException e) {
             Assert.assertEquals("vehicle not found",e.getMessage());
         }
@@ -69,9 +69,9 @@ public class parkingLotTest {
     @Test
     public void givenVehicleWhenParkingLotFull_ShouldThrowException() {
         try {
-            ParkingLot.parkVehicle(vehicle,0);
-            ParkingLot.parkVehicle(vehicle1,0);
-            ParkingLot.parkVehicle(vehicle1,0);
+            parkingLot.parkVehicle(vehicle,0);
+            parkingLot.parkVehicle(vehicle1,0);
+            parkingLot.parkVehicle(vehicle1,0);
             verify(informObservers).informParkingIsFull();
         } catch (ParkingLotException e) {
             Assert.assertEquals("cannot park more vehicles", e.getMessage());
@@ -84,32 +84,63 @@ public class parkingLotTest {
         expectedEmptySlots.add(0);
         expectedEmptySlots.add(1);
         try {
-            List<Integer> emptySlots = ParkingLot.getEmptySlots();
-            ParkingLot.parkVehicle(vehicle,0);
+            List<Integer> emptySlots = parkingLot.getEmptySlots();
+            parkingLot.parkVehicle(vehicle,0);
             Assert.assertEquals(expectedEmptySlots,emptySlots);
         } catch (ParkingLotException e) {
         }
     }
 
-    /////////UC7
     @Test
-    public void givenVehicleWhenParked_ShouldBeAbleToFindTheVehicleAtThatSlot() {
+    public void givenVehicle_WhenParked_shouldReturnTrue() {
         try {
-            ParkingLot.parkVehicle(vehicle,0);
-            int expectedSlot = ParkingLot.findVehicle(vehicle);
-            Assert.assertEquals(0,expectedSlot);
+            Object vehicle = new Object();
+            parkingLot.parkVehicle(vehicle);
+            boolean vehiclePresent = parkingLot.isVehiclePresent(vehicle);
+            Assert.assertTrue(vehiclePresent);
         } catch (ParkingLotException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void givenVehicleWhenNotParkedAndTriedToSearch_ShouldThrowException() {
+    public void givenVehicle_WhenNotParked_shouldReturnFalse() {
+            boolean vehiclePresent = parkingLot.isVehiclePresent(vehicle);
+            Assert.assertFalse(vehiclePresent);
+
+    }
+
+    /////////UC7
+    @Test
+    public void givenVehicleWhenParked_ShouldBeAbleToFindTheVehicleAtThatSlot() {
         try {
-            ParkingLot.findVehicle(vehicle);
+            parkingLot.parkVehicle(vehicle,0);
+            int expectedSlot = parkingLot.findSlotOfParkedVehicle(vehicle);
+            Assert.assertEquals(0,expectedSlot);
         } catch (ParkingLotException e) {
-            Assert.assertEquals("vehicle not found", e.getMessage());
         }
     }
 
+
+    @Test
+    public void givenVehicleWhenParked_ShouldReturnVehicleCount() {
+        try {
+            parkingLot.parkVehicle(vehicle);
+            int numberOfVehiclesParked = parkingLot.getNumberOfVehiclesParked();
+            Assert.assertEquals(1,numberOfVehiclesParked);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenVehicleWhenParked_ShouldReturnAvailableEmptySlots() {
+        try {
+            parkingLot.parkVehicle(vehicle);
+            int emptySlots = parkingLot.getNumberOfEmptySlots();
+            Assert.assertEquals(1,emptySlots);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+    }
 }
