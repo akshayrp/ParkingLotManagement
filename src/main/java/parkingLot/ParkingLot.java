@@ -90,11 +90,20 @@ public class ParkingLot {
         return vehicleSlot;
     }
 
-    public ArrayList<Integer> getLocation(String findBy) {
+    public ArrayList<Integer> getLocation(String findByColor) {
         ArrayList<Integer> collect = slots.stream().filter(slot -> slot.getVehicle() != null)
-                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findBy))
+                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findByColor))
                 .map(slot -> slot.getSlotNumber()).collect(Collectors.toCollection(ArrayList::new));
         return collect;
     }
 
+    public ArrayList<Vehicle> getLocation(String findByColor, String findByVehicleModel) {
+        ArrayList<Vehicle> collect = slots.stream()
+                .filter(slot -> slot.getVehicle() != null)
+                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findByColor) &&
+                        slot.getVehicle().getModel().equalsIgnoreCase(findByVehicleModel))
+                .map(slot -> slot.getVehicle())
+                .collect(Collectors.toCollection(ArrayList::new));
+        return collect;
+    }
 }

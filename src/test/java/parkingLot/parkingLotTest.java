@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import static org.mockito.Mockito.*;
 
@@ -33,8 +32,8 @@ public class parkingLotTest {
         this.slotList = mock(ArrayList.class);
         this.informObservers = mock(InformObservers.class);
         this.parkingLot = new ParkingLot(1,3);
-        vehicle = new Vehicle("red");
-        vehicle1 = new Vehicle("White");
+        vehicle = new Vehicle("red","bfdiu","jhbedi","nelk");
+        vehicle1 = new Vehicle("White","ndklj","kjnlsd","jnd");
     }
 
     @Test
@@ -72,8 +71,9 @@ public class parkingLotTest {
     public void givenVehicleWhenParkingLotFull_ShouldThrowException() {
         try {
             parkingLot.parkVehicle(vehicle,0);
-            parkingLot.parkVehicle(vehicle1,0);
-            parkingLot.parkVehicle(vehicle1,0);
+            parkingLot.parkVehicle(vehicle1,1);
+            parkingLot.parkVehicle(vehicle1,2);
+            parkingLot.parkVehicle(vehicle1,3);
             verify(informObservers).informParkingIsFull();
         } catch (ParkingLotException e) {
             Assert.assertEquals("cannot park more vehicles", e.getMessage());
@@ -85,6 +85,7 @@ public class parkingLotTest {
         List<Integer> expectedEmptySlots = new ArrayList();
         expectedEmptySlots.add(0);
         expectedEmptySlots.add(1);
+        expectedEmptySlots.add(2);
         try {
             List<Integer> emptySlots = parkingLot.getEmptySlots();
             parkingLot.parkVehicle(vehicle,0);
@@ -96,7 +97,7 @@ public class parkingLotTest {
     @Test
     public void givenVehicle_WhenParked_shouldReturnTrue() {
         try {
-            Vehicle vehicle = new Vehicle("White");
+            Vehicle vehicle = new Vehicle("White","jne","nlksn","eln");
             parkingLot.parkVehicle(vehicle);
             boolean vehiclePresent = parkingLot.isVehiclePresent(vehicle);
             Assert.assertTrue(vehiclePresent);
@@ -140,7 +141,7 @@ public class parkingLotTest {
         try {
             parkingLot.parkVehicle(vehicle);
             int emptySlots = parkingLot.getNumberOfEmptySlots();
-            Assert.assertEquals(1,emptySlots);
+            Assert.assertEquals(2,emptySlots);
         } catch (ParkingLotException e) {
             e.printStackTrace();
         }
@@ -151,8 +152,8 @@ public class parkingLotTest {
         try {
             ArrayList<Integer> expectedSlotNumber = new ArrayList<>();
             expectedSlotNumber.add(0);
-            Vehicle vehicle = new Vehicle("White");
-            Vehicle vehicle2 = new Vehicle("Yellow");
+            Vehicle vehicle = new Vehicle("White","nano","MH112","abc");
+            Vehicle vehicle2 = new Vehicle("Yellow","alto","MH30","abc");
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
             ArrayList<Integer> actual = parkingLot.getLocation("white");
@@ -167,12 +168,31 @@ public class parkingLotTest {
         try {
             ArrayList<Integer> expectedSlotNumber = new ArrayList<>();
             expectedSlotNumber.add(1);
-            Vehicle vehicle = new Vehicle("Red");
-            Vehicle vehicle2 = new Vehicle("white");
+            Vehicle vehicle = new Vehicle("Red","maruti","MH102","abc");
+            Vehicle vehicle2 = new Vehicle("white","bmw","MH202","xyz");
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
             ArrayList<Integer> actual = parkingLot.getLocation("white");
             Assert.assertEquals(expectedSlotNumber,actual);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenVehiclesWhenParked_ShouldReturnLocationPlateNumberAndAttendantNameOfAllBlueToyotaCars() {
+        try {
+            ArrayList<Vehicle> expectedList = new ArrayList<>();
+            Vehicle vehicle1 = new Vehicle("Blue","Toyota","MH102","abc");
+            Vehicle vehicle2 = new Vehicle("Blue","Toyota","MH100","abc");
+            Vehicle vehicle3 = new Vehicle("Brown","Duster","MH117","abc");
+            parkingLot.parkVehicle(vehicle1);
+            parkingLot.parkVehicle(vehicle2);
+            parkingLot.parkVehicle(vehicle3);
+            expectedList.add(vehicle1);
+            expectedList.add(vehicle2);
+            ArrayList<Vehicle> location = parkingLot.getLocation("blue", "Toyota");
+            Assert.assertEquals(expectedList,location);
         } catch (ParkingLotException e) {
             e.printStackTrace();
         }
