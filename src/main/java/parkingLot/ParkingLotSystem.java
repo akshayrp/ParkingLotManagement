@@ -45,13 +45,13 @@ public class ParkingLotSystem {
 
     public ArrayList<ArrayList<Integer>> getLocation(String findBy) {
         ArrayList<ArrayList<Integer>> collect = this.parkingLotsList.stream().map(parkingLot ->
-                parkingLot.getLocation(findBy)).collect(Collectors.toCollection(ArrayList::new));
+                parkingLot.getLocationByColor(findBy)).collect(Collectors.toCollection(ArrayList::new));
         return collect;
     }
 
     public ArrayList<ArrayList<Vehicle>> getLocation(String findByColor, String findByVehicleModel) {
         ArrayList<ArrayList<Vehicle>> collect = this.parkingLotsList.stream().map(parkingLot ->
-                parkingLot.getLocation(findByColor, findByVehicleModel)).collect(Collectors.toCollection(ArrayList::new));
+                parkingLot.getLocationByColorAndModel(findByColor, findByVehicleModel)).collect(Collectors.toCollection(ArrayList::new));
         return collect;
 
     }

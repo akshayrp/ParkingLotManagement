@@ -28,13 +28,8 @@ public class ParkingLot {
         IntStream.range(0, actualCapacity).forEach(slotNumber -> this.slots.add(slotNumber, new Slot(slotNumber)));
     }
 
-  /*  public void setMockedObject(ArrayList<Slot> slotList, InformObservers informObservers) {
-        this.informer = informObservers;
-        this.slots = slotList;
-    }*/
-
     public void parkVehicle(Vehicle vehicle) throws ParkingLotException {
-        this.checkForFullParkingLot();
+        this.checkForFullParkingLot(vehicle);
         int emptySlot = IntStream.range(0, slots.size()).filter(vehicles
                 -> slots.get(vehicles).getVehicle() == null).findFirst().getAsInt();
         slots.get(emptySlot).setVehicleAndTime(vehicle,LocalDateTime.now());
@@ -42,7 +37,7 @@ public class ParkingLot {
     }
 
     public void parkVehicle(Vehicle vehicle, int slotNumber) throws ParkingLotException {
-        this.checkForFullParkingLot();
+        this.checkForFullParkingLot(vehicle);
         slots.get(slotNumber).setVehicleAndTime(vehicle, LocalDateTime.now());
         vehicleCount++;
     }
@@ -77,11 +72,11 @@ public class ParkingLot {
         return this.actualCapacity - vehicleCount;
     }
 
-    private void checkForFullParkingLot() throws ParkingLotException {
+    private void checkForFullParkingLot(Vehicle vehicle) throws ParkingLotException {
          if (vehicleCount == actualCapacity) {
             this.informer.informParkingIsFull();
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_CAPACITY_FULL, "cannot park more vehicles");
-        }
+         }
     }
 
     private Stream<Slot> getSlot(Vehicle vehicle) {
@@ -90,20 +85,23 @@ public class ParkingLot {
         return vehicleSlot;
     }
 
-    public ArrayList<Integer> getLocation(String findByColor) {
-        ArrayList<Integer> collect = slots.stream().filter(slot -> slot.getVehicle() != null)
-                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findByColor))
+    public ArrayList<Vehicle> getLocationByColorAndModel(String findByColor, String findByVehicleModel) {
+        ArrayList<Vehicle> collect = getLocationOfVehicle(findByColor)
+                .filter(slot -> slot.getVehicle().getModel().equalsIgnoreCase(findByVehicleModel))
+                .map(slot -> slot.getVehicle())
+                .collect(Collectors.toCollection(ArrayList::new));
+        return collect;
+    }
+
+    public ArrayList<Integer> getLocationByColor(String findByColor) {
+        ArrayList<Integer> collect = getLocationOfVehicle(findByColor)
                 .map(slot -> slot.getSlotNumber()).collect(Collectors.toCollection(ArrayList::new));
         return collect;
     }
 
-    public ArrayList<Vehicle> getLocation(String findByColor, String findByVehicleModel) {
-        ArrayList<Vehicle> collect = slots.stream()
-                .filter(slot -> slot.getVehicle() != null)
-                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findByColor) &&
-                        slot.getVehicle().getModel().equalsIgnoreCase(findByVehicleModel))
-                .map(slot -> slot.getVehicle())
-                .collect(Collectors.toCollection(ArrayList::new));
-        return collect;
+    private Stream<Slot> getLocationOfVehicle(String findByColor) {
+        Stream<Slot> slotStream = slots.stream().filter(slot -> slot.getVehicle() != null)
+                .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findByColor));
+        return slotStream;
     }
 }
