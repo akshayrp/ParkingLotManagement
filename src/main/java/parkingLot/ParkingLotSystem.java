@@ -48,7 +48,7 @@ public class ParkingLotSystem {
                 parkingLot.getLocationByColor(findBy)).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public ArrayList<ArrayList<Vehicle>> getLocationByColorAndModel(String findByColor, String findByVehicleModel) {
+    public ArrayList<ArrayList<String>> getLocationByColorAndModel(String findByColor, String findByVehicleModel) {
         return this.parkingLotsList.stream().map(parkingLot ->
                 parkingLot.getLocationByColorAndModel(findByColor, findByVehicleModel)).collect(Collectors.toCollection(ArrayList::new));
     }

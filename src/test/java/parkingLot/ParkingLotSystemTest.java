@@ -142,9 +142,9 @@ public class ParkingLotSystemTest {
     @Test
     public void givenVehiclesWhenParked_ShouldReturnLocationPlateNumberAndAttendantNameOfAllBlueToyotaCars() {
         try {
-            ArrayList<ArrayList<Vehicle>> expectedList = new ArrayList<>();
-            ArrayList<Vehicle> lot1 = new ArrayList<>();
-            ArrayList<Vehicle> lot2 = new ArrayList<>();
+            ArrayList<ArrayList<VehicleParkingDTO>> expectedList = new ArrayList<>();
+            ArrayList<VehicleParkingDTO> lot1 = new ArrayList<>();
+            ArrayList<VehicleParkingDTO> lot2 = new ArrayList<>();
             parkingLotSystem.createParkingLot(2,2);
             Vehicle vehicle1 = new Vehicle("Blue","Toyota","MH102","abc");
             Vehicle vehicle2 = new Vehicle("Blue","Toyota","MH100","abc");
@@ -152,11 +152,11 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle1);
             parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle2);
             parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle3);
-             lot1.add(vehicle1);
-            lot2.add(vehicle2);
+             lot1.add(new VehicleParkingDTO(0,"MH102","abc"));
+            lot2.add(new VehicleParkingDTO(0,"MH100","abc"));
             expectedList.add(lot1);
             expectedList.add(lot2);
-            ArrayList<ArrayList<Vehicle>> location = parkingLotSystem.getLocationByColorAndModel("blue", "Toyota");
+            ArrayList<ArrayList<String>> location = parkingLotSystem.getLocationByColorAndModel("blue", "Toyota");
             Assert.assertEquals(expectedList,location);
         } catch (ParkingLotException e) {
         }
