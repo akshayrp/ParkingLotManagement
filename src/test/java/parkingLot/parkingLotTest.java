@@ -42,7 +42,15 @@ public class parkingLotTest {
             parkingLot.parkVehicle(vehicle,0);
             Assert.assertTrue(parkingLot.isVehiclePresent(vehicle));
         } catch (ParkingLotException e) {
-            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenVehicleWhenParkedMultipleTime_ShouldThrowException() {
+        try {
+            parkingLot.parkVehicle(vehicle,0);
+            parkingLot.parkVehicle(vehicle,1);
+        } catch (ParkingLotException e) {
         }
     }
 
@@ -72,8 +80,8 @@ public class parkingLotTest {
         try {
             parkingLot.parkVehicle(vehicle,0);
             parkingLot.parkVehicle(vehicle1,1);
-            parkingLot.parkVehicle(vehicle1,2);
-            parkingLot.parkVehicle(vehicle1,3);
+            parkingLot.parkVehicle(new Vehicle("red","bfdiu","jhbedi","nelk"),2);
+            parkingLot.parkVehicle(new Vehicle("red","bfdiu","jhbedi","nelk"),3);
             verify(informObservers).informParkingIsFull();
         } catch (ParkingLotException e) {
             Assert.assertEquals("cannot park more vehicles", e.getMessage());
@@ -132,7 +140,6 @@ public class parkingLotTest {
             int numberOfVehiclesParked = parkingLot.getNumberOfVehiclesParked();
             Assert.assertEquals(1,numberOfVehiclesParked);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -143,7 +150,6 @@ public class parkingLotTest {
             int emptySlots = parkingLot.getNumberOfEmptySlots();
             Assert.assertEquals(2,emptySlots);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -156,10 +162,9 @@ public class parkingLotTest {
             Vehicle vehicle2 = new Vehicle("Yellow","alto","MH30","abc");
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
-            ArrayList<Integer> actual = parkingLot.getLocation("white");
+            ArrayList<Integer> actual = parkingLot.getLocationByColor("white");
             Assert.assertEquals(expectedSlotNumber,actual);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -172,10 +177,9 @@ public class parkingLotTest {
             Vehicle vehicle2 = new Vehicle("white","bmw","MH202","xyz");
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
-            ArrayList<Integer> actual = parkingLot.getLocation("white");
+            ArrayList<Integer> actual = parkingLot.getLocationByColor("white");
             Assert.assertEquals(expectedSlotNumber,actual);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -191,8 +195,46 @@ public class parkingLotTest {
             parkingLot.parkVehicle(vehicle3);
             expectedList.add(vehicle1);
             expectedList.add(vehicle2);
-            ArrayList<Vehicle> location = parkingLot.getLocation("blue", "Toyota");
+            ArrayList<Vehicle> location = parkingLot.getLocationByColorAndModel("blue", "Toyota");
             Assert.assertEquals(expectedList,location);
+        } catch (ParkingLotException e) {
+        }
+    }
+
+    @Test
+    public void givenVehiclesWhenParked_ShouldLocationOfAllParkedBMWCars() {
+        try {
+            ArrayList<Vehicle> expectedList = new ArrayList<>();
+            Vehicle vehicle1 = new Vehicle("Blue","BMW","MH102","abc");
+            Vehicle vehicle2 = new Vehicle("Blue","Toyota","MH100","abc");
+            Vehicle vehicle3 = new Vehicle("Brown","BMW","MH117","abc");
+            parkingLot.parkVehicle(vehicle1);
+            parkingLot.parkVehicle(vehicle2);
+            parkingLot.parkVehicle(vehicle3);
+            expectedList.add(vehicle1);
+            expectedList.add(vehicle3);
+            ArrayList<Vehicle> location = parkingLot.getVehicleByModel("BMW");
+            Assert.assertEquals(expectedList,location);
+        } catch (ParkingLotException e) {
+        }
+    }
+
+    @Test
+    public void givenVehicle_ShouldReturnListOfAllVehicleParkedInLast30Minutes() {
+        ArrayList<Vehicle> expectedList = new ArrayList<>();
+        Vehicle vehicle1 = new Vehicle("Blue","BMW","MH102","abc");
+        Vehicle vehicle2 = new Vehicle("Blue","Toyota","MH100","abc");
+        Vehicle vehicle3 = new Vehicle("Brown","BMW","MH117","abc");
+        expectedList.add(vehicle1);
+        expectedList.add(vehicle2);
+        expectedList.add(vehicle3);
+        try {
+            parkingLot.parkVehicle(vehicle1);
+            parkingLot.parkVehicle(vehicle2);
+            parkingLot.parkVehicle(vehicle3);
+            ArrayList<Vehicle> vehicleByTime = parkingLot.getVehicleByTime(30);
+            System.out.println(vehicleByTime.toString());
+            Assert.assertEquals(expectedList,vehicleByTime);
         } catch (ParkingLotException e) {
             e.printStackTrace();
         }

@@ -43,16 +43,24 @@ public class ParkingLotSystem {
                 .filter(parkingLot -> parkingLot.isVehiclePresent(vehicle)).findFirst().orElseThrow(() -> new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND, "No vehicle present"));
     }
 
-    public ArrayList<ArrayList<Integer>> getLocation(String findBy) {
-        ArrayList<ArrayList<Integer>> collect = this.parkingLotsList.stream().map(parkingLot ->
+    public ArrayList<ArrayList<Integer>> getLocationByColor(String findBy) {
+        return this.parkingLotsList.stream().map(parkingLot ->
                 parkingLot.getLocationByColor(findBy)).collect(Collectors.toCollection(ArrayList::new));
-        return collect;
     }
 
-    public ArrayList<ArrayList<Vehicle>> getLocation(String findByColor, String findByVehicleModel) {
-        ArrayList<ArrayList<Vehicle>> collect = this.parkingLotsList.stream().map(parkingLot ->
+    public ArrayList<ArrayList<Vehicle>> getLocationByColorAndModel(String findByColor, String findByVehicleModel) {
+        return this.parkingLotsList.stream().map(parkingLot ->
                 parkingLot.getLocationByColorAndModel(findByColor, findByVehicleModel)).collect(Collectors.toCollection(ArrayList::new));
-        return collect;
+    }
 
+    public ArrayList<ArrayList<Vehicle>> getLocationByModel(String findByVehicleModel) {
+        return this.parkingLotsList.stream().map(parkingLot ->
+                parkingLot.getVehicleByModel(findByVehicleModel)).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<ArrayList<Vehicle>> getLocationOfVehicleByTime(int findByTime) {
+        return this.parkingLotsList.stream().map(parkingLot ->
+                parkingLot.getVehicleByTime(findByTime)).collect(Collectors.toCollection(ArrayList::new));
     }
 }
+

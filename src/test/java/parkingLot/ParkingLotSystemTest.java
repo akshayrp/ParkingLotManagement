@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -40,7 +39,6 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle);
             verify(parkingLot).parkVehicle(vehicle);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -53,7 +51,6 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle, 0);
             verify(parkingLot).parkVehicle(vehicle, 0);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -82,7 +79,6 @@ public class ParkingLotSystemTest {
             ParkingLot parkedVehicleLot = parkingLotSystem.getParkedVehicleLot(vehicle);
             Assert.assertEquals(parkingLotSystem.parkingLotsList.get(0),parkedVehicleLot);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -97,7 +93,6 @@ public class ParkingLotSystemTest {
             ParkingLot parkedVehicleLot = parkingLotSystem.getParkedVehicleLot(vehicle2);
             Assert.assertEquals(parkingLotSystem.parkingLotsList.get(0),parkedVehicleLot);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -121,7 +116,6 @@ public class ParkingLotSystemTest {
             ParkingLot parkedVehicleLot = parkingLotSystem.getParkedVehicleLot(vehicle5);
             Assert.assertEquals(parkingLotSystem.parkingLotsList.get(0), parkedVehicleLot);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -140,10 +134,8 @@ public class ParkingLotSystemTest {
             Vehicle vehicle2 = new Vehicle("White","kndm","mnkdl","dsnl");
             parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle);
             parkingLotSystem.parkVehicle(DriverType.HANDICAP_DRIVER,vehicle2);
-            ArrayList<ArrayList<Integer>> locationList = parkingLotSystem.getLocation("White");
-            System.out.println(locationList.toString());
+            ArrayList<ArrayList<Integer>> locationList = parkingLotSystem.getLocationByColor("White");
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
     }
 
@@ -164,11 +156,58 @@ public class ParkingLotSystemTest {
             lot2.add(vehicle2);
             expectedList.add(lot1);
             expectedList.add(lot2);
-            ArrayList<ArrayList<Vehicle>> location = parkingLotSystem.getLocation("blue", "Toyota");
-            System.out.println(location);
+            ArrayList<ArrayList<Vehicle>> location = parkingLotSystem.getLocationByColorAndModel("blue", "Toyota");
             Assert.assertEquals(expectedList,location);
         } catch (ParkingLotException e) {
-            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenVehiclesWhenParked_ShouldReturnLocationAllParkedBMWCars() {
+        try {
+            ArrayList<ArrayList<Vehicle>> expectedList = new ArrayList<>();
+            ArrayList<Vehicle> lot1 = new ArrayList<>();
+            ArrayList<Vehicle> lot2 = new ArrayList<>();
+            parkingLotSystem.createParkingLot(2,2);
+            Vehicle vehicle1 = new Vehicle("Blue","BMW","MH102","abc");
+            Vehicle vehicle2 = new Vehicle("Blue","Toyota","MH100","abc");
+            Vehicle vehicle3 = new Vehicle("Brown","BMW","MH117","abc");
+            parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle1);
+            parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle2);
+            parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle3);
+            lot1.add(vehicle1);
+            lot2.add(vehicle3);
+            expectedList.add(lot1);
+            expectedList.add(lot2);
+            ArrayList<ArrayList<Vehicle>> location = parkingLotSystem.getLocationByModel("BMW");
+            System.out.println(location.toString());
+            Assert.assertEquals(expectedList,location);
+        } catch (ParkingLotException e) {
+        }
+    }
+
+    @Test
+    public void givenVehicle_ShouldReturnListOfAllVehicleParkedInLast30Minutes() {
+        try {
+            ArrayList<ArrayList<Vehicle>> expectedList = new ArrayList<>();
+            ArrayList<Vehicle> lot1 = new ArrayList<>();
+            ArrayList<Vehicle> lot2 = new ArrayList<>();
+            parkingLotSystem.createParkingLot(2,2);
+            Vehicle vehicle1 = new Vehicle("Blue","BMW","MH102","abc");
+            Vehicle vehicle2 = new Vehicle("Blue","Toyota","MH100","abc");
+            Vehicle vehicle3 = new Vehicle("Brown","BMW","MH117","abc");
+            parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle1);
+            parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle2);
+            parkingLotSystem.parkVehicle(DriverType.NORMAL,vehicle3);
+            lot1.add(vehicle1);
+            lot2.add(vehicle2);
+            lot1.add(vehicle3);
+            expectedList.add(lot1);
+            expectedList.add(lot2);
+            ArrayList<ArrayList<Vehicle>> location = parkingLotSystem.getLocationOfVehicleByTime(30);
+            System.out.println(location.toString());
+            Assert.assertEquals(expectedList,location);
+        } catch (ParkingLotException e) {
         }
     }
 }

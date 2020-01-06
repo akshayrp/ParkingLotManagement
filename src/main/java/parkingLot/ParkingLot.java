@@ -2,6 +2,7 @@ package parkingLot;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -99,9 +100,22 @@ public class ParkingLot {
         return collect;
     }
 
+    public ArrayList<Vehicle> getVehicleByModel(String findByVehicleModel) {
+        ArrayList<Vehicle> sortedVehicle = slots.stream().filter(slot -> slot.getVehicle() != null
+                && slot.getVehicle().getModel().equalsIgnoreCase(findByVehicleModel))
+                .map(slot -> slot.getVehicle()).collect(Collectors.toCollection(ArrayList::new));
+        return sortedVehicle;
+    }
+
     private Stream<Slot> getLocationOfVehicle(String findByColor) {
         Stream<Slot> slotStream = slots.stream().filter(slot -> slot.getVehicle() != null)
                 .filter(slot -> slot.getVehicle().getColor().equalsIgnoreCase(findByColor));
         return slotStream;
+    }
+
+    public ArrayList<Vehicle> getVehicleByTime(int minutes) {
+        return slots.stream().filter(slot -> slot.getVehicle() != null).filter(slot -> slot.getParkingTime().getMinute() <= minutes
+                && slot.getParkingTime().getMinute() > 0).map(slot -> slot.getVehicle())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
